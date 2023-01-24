@@ -6,7 +6,7 @@ public class UserInterface {
     private JTextArea textArea;
     private JMenuBar menu;
     private JMenu file, edit;
-    private JMenuItem open, save, exit;
+    private JMenuItem newFile, open, save, exit;
 
     public UserInterface() {
         frame = new JFrame("Notepad");
@@ -17,6 +17,7 @@ public class UserInterface {
         textArea.setPreferredSize(frame.getSize());
         Font font = textArea.getFont();
         textArea.setFont(font.deriveFont(14f));
+        textArea.setTabSize(4);
         JScrollPane scrollPane = new JScrollPane(textArea);
         frame.add(scrollPane);
 
@@ -24,11 +25,17 @@ public class UserInterface {
         file = new JMenu("File");
         edit = new JMenu("Edit");
         
+        FileMenuListener fileMenu = new FileMenuListener(frame, textArea);
+        newFile = new JMenuItem("New");
+        newFile.addActionListener(fileMenu);
         open = new JMenuItem("Open");
-        open.addActionListener(new FileMenuListener(frame, textArea));
+        open.addActionListener(fileMenu);
         save = new JMenuItem("Save");
+        save.addActionListener(fileMenu);
         exit = new JMenuItem("Exit");
+        exit.addActionListener(fileMenu);
 
+        file.add(newFile);
         file.add(open);
         file.add(save);
         file.add(exit);
